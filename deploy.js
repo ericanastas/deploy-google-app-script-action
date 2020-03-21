@@ -54,19 +54,13 @@ const fs = require('fs');
 
         log("pressing enter");
         await page.keyboard.press('Enter');
-
-
+        
         log("waiting for approve button");
         var approveButtonSelector = "#submit_approve_access";
         await page.waitFor(approveButtonSelector, { visible: true });
-        await page.hover(approveButtonSelector);
-
-
-        var enabledApproveButtonSelector = "#submit_approve_access:not([disabled])";
-        await page.waitFor(enabledApproveButtonSelector, { visible: true });
-
+        
         log("clicking approve button");
-        await page.click(enabledApproveButtonSelector, { waitUntil: "networkidle0 " });
+        await page.click(approveButtonSelector, { waitUntil: "networkidle0 " });
 
         log("waiting for grant code");
         await page.waitFor("#view_container textarea", { visible: true });
