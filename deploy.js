@@ -34,7 +34,6 @@ const fs = require('fs');
 
 
         const authurl = "https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fscript.deployments%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fscript.projects%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fscript.webapp.deploy%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.metadata.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fservice.management%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Flogging.read%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&client_id=1072944905499-vm2v2i5dvn0a0d2o4ca36i1vge8cvbn0.apps.googleusercontent.com&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob";
-
         log("opening url, and waiting until networkidle0");
         await page.goto(authurl, { waitUntil: "networkidle0" });
 
@@ -66,28 +65,60 @@ const fs = require('fs');
 
         log("pressing enter");
         await page.keyboard.press('Enter');
+
+
+
+
+        try {
+
+            var recoveryEmailInputSelector = "#knowledge-preregistered-email-response";
+            var recoveryEmail = "informationsystems@som.com";
+
+            await page.waitFor(recoveryEmailInputSelector, { visible: true });
+            await page.type(recoveryEmailInputSelector, recoveryEmail);
+            await page.keyboard.press('Enter');
+
+            await delay(10000);
+
+
+            fs.writeFileSync(screenShotDir + '/afterRecoveryEmail.html', grantHtml);
+            await page.screenshot({ path: screenShotDir + '/afterRecoveryEmail.png' });
+            
+
+            
+        } catch (error) {
+            console.log("No recovery email prompt")
+        }
+
+
+
         
+        
+
+
+   
+
+
+        
+
+
+
+        //const grantHtml = await page.content();
+        //fs.writeFileSync(screenShotDir + '/grantHtml.html', grantHtml);
+        //await page.screenshot({ path: screenShotDir + '/04_Approval.png' });
+
         log("waiting for approve button");
-
-        await delay(10000);
-
-        await page.screenshot({ path: screenShotDir+'/04_Approval.png' });
-
-
-
-        const grantHtml = await page.content();
-        fs.writeFileSync(screenShotDir + '/grantHtml.html', grantHtml);
-
-
-
         var approveButtonSelector = "#submit_approve_access";
         await page.waitFor(approveButtonSelector, { visible: true });
+        await page.screenshot({ path: screenShotDir + '/04_Approval.png' });
         
         log("clicking approve button");
         await page.click(approveButtonSelector, { waitUntil: "networkidle0 " });
 
         log("waiting for grant code");
 
+        
+        
         
 
         await page.waitFor("#view_container textarea", { visible: true });
