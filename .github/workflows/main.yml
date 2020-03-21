@@ -14,6 +14,9 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
+    
+    - name: list files
+      run: ls
       
     - name: Setup NodeJs
       uses: actions/setup-node@v1
@@ -21,8 +24,10 @@ jobs:
     - name: Install clasp
       run: npm install @google/clasp -g
       
-    - name: Login to clasp
-      run: echo 4/xwGuN3qn2YrP1X9VNuDI89bmGXMmxJA5Ku-nEsuJcw_PevZeiH2j_so | clasp login --no-localhost
+    - name: Install Puppeteer
+      run: npm i puppeteer
       
-    - name: list files
-      run: ls
+    #- name: Login to clasp
+      #run: echo 4/xwGuN3qn2YrP1X9VNuDI89bmGXMmxJA5Ku-nEsuJcw_PevZeiH2j_so | clasp login --no-localhost
+      
+    
