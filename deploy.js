@@ -1,39 +1,38 @@
 const puppeteer = require('puppeteer');
 
-const headless = true;
-const enableLogging = process.env.LOGGING_ENABLED;
+//To set window enviorment variables in powershell
+//PowerSheell
+//$env:GOOGLE_USER = 'alice@acme.com'
+//$env:GOOGLE_PASS = '123456'
+//$env:LOGGING_ENABLED = 'true'
 
 (async () => {
-
 
     log("Creating puppeteer browser");
     const browser = await puppeteer.launch({
         defaultViewport: null,
-        headless: headless, // launch headful mode
-        args: [`--window-size=1280,1024`] // new option
+        headless: true, 
+        args: [`--window-size=1280,1024`] 
         //slowMo: 250, // slow down puppeteer script so that it's easier to follow visually
     });
 
 
     try {
-        //To set window enviorment variables in powershell
-        //PowerSheell
-        //$env:GOOGLE_USER = 'alic@acme.com'
-        //$env:GOOGLE_PASS = '123456'
-
+        
         const userName = process.env.GOOGLE_USER;
         const password = process.env.GOOGLE_PASS;
 
         const page = await browser.newPage();
+        await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
+
 
         const authurl = "https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fscript.deployments%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fscript.projects%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fscript.webapp.deploy%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.metadata.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fservice.management%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Flogging.read%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&client_id=1072944905499-vm2v2i5dvn0a0d2o4ca36i1vge8cvbn0.apps.googleusercontent.com&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob";
 
         log("opening url, and waiting until networkidle0");
         await page.goto(authurl, { waitUntil: "networkidle0" });
-
+        
         var emailSelector = "#identifierId"
-        if (headless) var emailSelector = "#Email"
-
+        
         log("waiting for login screen (#identifierId)");
         await page.waitFor(emailSelector, { visible: true });
 
@@ -42,9 +41,8 @@ const enableLogging = process.env.LOGGING_ENABLED;
 
         log("pressing enter");
         await page.keyboard.press('Enter');
-
+        
         var pwSelector = "#password input"
-        if (headless) var pwSelector = "#Passwd"
 
         log("waiting for password input");
         await page.waitFor(pwSelector, { visible: true });
@@ -76,8 +74,7 @@ const enableLogging = process.env.LOGGING_ENABLED;
         log("code:" + code);
         process.stdout.write(code);
     }
-    catch(err)
-    {
+    catch (err) {
         console.log('Exception caught in deploy.js');
         console.log(err);
         throw err;
@@ -91,5 +88,5 @@ const enableLogging = process.env.LOGGING_ENABLED;
 })();
 
 function log(message) {
-    if (enableLogging) console.log(message);
+    if (process.env.LOGGING_ENABLED) console.log(message);
 }
