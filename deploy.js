@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 const headless = true;
-const enableLogging = process.env.LOGGING_ENABLED
+const enableLogging = process.env.LOGGING_ENABLED;
 
 (async () => {
 
@@ -18,10 +18,8 @@ const enableLogging = process.env.LOGGING_ENABLED
     try {
         //To set window enviorment variables in powershell
         //PowerSheell
-        //$env: GOOGLE_USER = 'alic@acme.com'
-        //$env: GOOGLE_PASS = '123456'
-
-        
+        //$env:GOOGLE_USER = 'alic@acme.com'
+        //$env:GOOGLE_PASS = '123456'
 
         const userName = process.env.GOOGLE_USER;
         const password = process.env.GOOGLE_PASS;
@@ -56,9 +54,6 @@ const enableLogging = process.env.LOGGING_ENABLED
 
         log("pressing enter");
         await page.keyboard.press('Enter');
-
-
-        
 
         var approveButtonSelector = "#submit_approve_access:not([disabled])";
 
