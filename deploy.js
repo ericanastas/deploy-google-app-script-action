@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 const headless = true;
-const enableLogging = false;
+const enableLogging = process.env.LOGGING_ENABLED
 
 (async () => {
 

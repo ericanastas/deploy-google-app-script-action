@@ -22,6 +22,14 @@ jobs:
       
     - name: Install Puppeteer
       run: npm i puppeteer
+
+
+    - name: Test deploy.js
+      run: node deploy.js
+      env:
+        GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
+        GOOGLE_PASS: ${{ secrets.GOOGLE_PASS }}
+        LOGGING_ENABLED: true
       
     - name: Login to clasp
       run: node deploy.js | clasp login --no-localhost
