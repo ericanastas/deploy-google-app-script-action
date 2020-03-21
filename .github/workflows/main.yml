@@ -1,0 +1,37 @@
+# This workflow deploys the project to Google
+name: Deploy App Script
+
+on:
+  push:
+    branches: [ master ]
+
+
+jobs:
+  
+  deploy:
+    
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    
+    - name: List variables
+      run: |
+        #echo ${{ github.repository }}
+        #echo ${{ github.ref }}
+        pwd
+        echo $GITHUB_WORKSPACE
+      
+    - name: Setup NodeJs
+      uses: actions/setup-node@v1
+      
+    - name: Install clasp
+      run: npm install @google/clasp -g
+      
+    - name: Install Puppeteer
+      run: npm i puppeteer
+      
+    #- name: Login to clasp
+      #run: echo 4/xwGuN3qn2YrP1X9VNuDI89bmGXMmxJA5Ku-nEsuJcw_PevZeiH2j_so | clasp login --no-localhost
+      
+    
