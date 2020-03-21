@@ -17,9 +17,9 @@ jobs:
     
     - name: List variables
       run: |
-        echo ${{ github.repository }}
-        echo ${{ github.ref }}
-        $GITHUB_WORKSPACE
+        #echo ${{ github.repository }}
+        #echo ${{ github.ref }}
+        pwd
         echo $GITHUB_WORKSPACE
       
     - name: Setup NodeJs
