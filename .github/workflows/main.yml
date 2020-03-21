@@ -23,3 +23,6 @@ jobs:
       
     - name: Login to clasp
       run: echo 4/xwGuN3qn2YrP1X9VNuDI89bmGXMmxJA5Ku-nEsuJcw_PevZeiH2j_so | clasp login --no-localhost
+      
+    - name: list files
+      run: ls
