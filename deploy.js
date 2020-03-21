@@ -18,6 +18,11 @@ const fs = require('fs');
         //slowMo: 250, // slow down puppeteer script so that it's easier to follow visually
     });
 
+    const screenShotDir = "screenshots";
+
+    if (fs.existsSync(screenShotDir)) fs.rmdirSync(screenShotDir, { recursive :true});
+    fs.mkdirSync(screenShotDir);
+
 
     try {
         
@@ -32,11 +37,16 @@ const fs = require('fs');
 
         log("opening url, and waiting until networkidle0");
         await page.goto(authurl, { waitUntil: "networkidle0" });
+
+
+        await page.screenshot({ path: screenShotDir+'/01_Inital.png' });
         
         var emailSelector = "#identifierId"
         
         log("waiting for login screen (#identifierId)");
+        
         await page.waitFor(emailSelector, { visible: true });
+        await page.screenshot({ path: screenShotDir+'/02_Username.png' });
 
         log("entering username");
         await page.type(emailSelector, userName);
@@ -47,7 +57,9 @@ const fs = require('fs');
         var pwSelector = "#password input"
 
         log("waiting for password input");
+        
         await page.waitFor(pwSelector, { visible: true });
+        await page.screenshot({ path: screenShotDir+'/03_Password.png' });
 
         log("entering password");
         await page.type(pwSelector, password);
@@ -56,6 +68,8 @@ const fs = require('fs');
         await page.keyboard.press('Enter');
         
         log("waiting for approve button");
+        await page.screenshot({ path: screenShotDir+'/04_Approval.png' });
+
         var approveButtonSelector = "#submit_approve_access";
         await page.waitFor(approveButtonSelector, { visible: true });
         
@@ -63,7 +77,13 @@ const fs = require('fs');
         await page.click(approveButtonSelector, { waitUntil: "networkidle0 " });
 
         log("waiting for grant code");
+
+        
+
         await page.waitFor("#view_container textarea", { visible: true });
+
+        await page.screenshot({ path: 'screenshots/04_Grant.png' });
+
         const element = await page.$("#view_container textarea");
         const code = await page.evaluate(element => element.textContent, element);
 

@@ -30,6 +30,12 @@ jobs:
         GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
         GOOGLE_PASS: ${{ secrets.GOOGLE_PASS }}
         LOGGING_ENABLED: true
+
+    - name: Upload Screen Shots
+      uses: actions/upload-artifact@v1
+      with:
+          name: Screenshots
+          path: screenshots
       
     - name: Login to clasp
       run: cat grant.txt | clasp login --no-localhost
