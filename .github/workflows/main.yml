@@ -28,5 +28,8 @@ jobs:
       env:
         GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
         GOOGLE_PASS: ${{ secrets.GOOGLE_PASS }}
+
+    - name: Check login status
+      run: clasp login --status
       
     
