@@ -20,3 +20,6 @@ jobs:
       
     - name: Install clasp
       run: npm install @google/clasp -g
+      
+    - name: Login to clasp
+      run: clasp login
