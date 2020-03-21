@@ -85,7 +85,13 @@ const fs = require('fs');
 
         await page.waitFor("#view_container textarea", { visible: true });
 
-        await page.screenshot({ path: 'screenshots/04_Grant.png' });
+        await page.screenshot({ path: screenShotDir+'/04_Grant.png' });
+
+        
+
+        const grantHtml = await page.content();
+        fs.writeFileSync(screenShotDir + '/grantHtml.html', grantHtml);
+
 
         const element = await page.$("#view_container textarea");
         const code = await page.evaluate(element => element.textContent, element);
