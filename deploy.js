@@ -57,10 +57,16 @@ const enableLogging = false;
         log("pressing enter");
         await page.keyboard.press('Enter');
 
+
+        
+
         var approveButtonSelector = "#submit_approve_access:not([disabled])";
 
         log("waiting for appove button");
+        await page.hover("#submit_approve_access");
         await page.waitFor(approveButtonSelector, { visible: true });
+
+        
 
         log("clicking approve button");
         await page.click(approveButtonSelector, { waitUntil: "networkidle0 " });
