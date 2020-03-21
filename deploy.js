@@ -55,16 +55,18 @@ const enableLogging = process.env.LOGGING_ENABLED;
         log("pressing enter");
         await page.keyboard.press('Enter');
 
-        var approveButtonSelector = "#submit_approve_access:not([disabled])";
 
-        log("waiting for appove button");
-        await page.hover("#submit_approve_access");
+        log("waiting for approve button");
+        var approveButtonSelector = "#submit_approve_access";
         await page.waitFor(approveButtonSelector, { visible: true });
+        await page.hover(approveButtonSelector);
 
-        
+
+        var enabledApproveButtonSelector = "#submit_approve_access:not([disabled])";
+        await page.waitFor(enabledApproveButtonSelector, { visible: true });
 
         log("clicking approve button");
-        await page.click(approveButtonSelector, { waitUntil: "networkidle0 " });
+        await page.click(enabledApproveButtonSelector, { waitUntil: "networkidle0 " });
 
         log("waiting for grant code");
         await page.waitFor("#view_container textarea", { visible: true });
@@ -76,6 +78,7 @@ const enableLogging = process.env.LOGGING_ENABLED;
     }
     catch(err)
     {
+        console.log('Exception caught in deploy.js');
         console.log(err);
         throw err;
     }
