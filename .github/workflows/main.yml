@@ -15,8 +15,12 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
     
-    - name: list files
-      run: ls
+    - name: List variables
+      run: |
+        echo ${{ github.repository }}
+        echo ${{ github.ref }}
+        $GITHUB_WORKSPACE
+        echo $GITHUB_WORKSPACE
       
     - name: Setup NodeJs
       uses: actions/setup-node@v1
