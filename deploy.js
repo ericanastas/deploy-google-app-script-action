@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
+
 
 //To set window enviorment variables in powershell
 //PowerSheell
@@ -71,8 +73,12 @@ const puppeteer = require('puppeteer');
         const element = await page.$("#view_container textarea");
         const code = await page.evaluate(element => element.textContent, element);
 
-        log("code:" + code);
-        process.stdout.write(code);
+        log("grant code:" + code);
+        log("writing grant.txt");
+        fs.writeFileSync('grant.txt', code);
+
+        
+
     }
     catch (err) {
         console.log('Exception caught in deploy.js');

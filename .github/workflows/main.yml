@@ -24,7 +24,7 @@ jobs:
       run: npm i puppeteer
 
 
-    - name: Test deploy.js
+    - name: Get OAuth Grant
       run: node deploy.js
       env:
         GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
@@ -32,7 +32,7 @@ jobs:
         LOGGING_ENABLED: true
       
     - name: Login to clasp
-      run: node deploy.js | clasp login --no-localhost
+      run: cat grant.txt | clasp login --no-localhost
       env:
         GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
         GOOGLE_PASS: ${{ secrets.GOOGLE_PASS }}
