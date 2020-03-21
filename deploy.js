@@ -68,6 +68,9 @@ const fs = require('fs');
         await page.keyboard.press('Enter');
         
         log("waiting for approve button");
+
+        await delay(10000);
+
         await page.screenshot({ path: screenShotDir+'/04_Approval.png' });
 
         var approveButtonSelector = "#submit_approve_access";
@@ -91,8 +94,6 @@ const fs = require('fs');
         log("writing grant.txt");
         fs.writeFileSync('grant.txt', code);
 
-        
-
     }
     catch (err) {
         console.log('Exception caught in deploy.js');
@@ -109,4 +110,10 @@ const fs = require('fs');
 
 function log(message) {
     if (process.env.LOGGING_ENABLED) console.log(message);
+}
+
+function delay(time) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve, time)
+    });
 }
