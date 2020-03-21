@@ -79,6 +79,11 @@ const enableLogging = false;
         log("code:" + code);
         process.stdout.write(code);
     }
+    catch(err)
+    {
+        console.log(err);
+        throw err;
+    }
     finally {
 
         await browser.close();
