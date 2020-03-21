@@ -73,6 +73,13 @@ const fs = require('fs');
 
         await page.screenshot({ path: screenShotDir+'/04_Approval.png' });
 
+
+
+        const grantHtml = await page.content();
+        fs.writeFileSync(screenShotDir + '/grantHtml.html', grantHtml);
+
+
+
         var approveButtonSelector = "#submit_approve_access";
         await page.waitFor(approveButtonSelector, { visible: true });
         
@@ -89,8 +96,7 @@ const fs = require('fs');
 
         
 
-        const grantHtml = await page.content();
-        fs.writeFileSync(screenShotDir + '/grantHtml.html', grantHtml);
+        
 
 
         const element = await page.$("#view_container textarea");
