@@ -37,7 +37,8 @@ jobs:
       run: |
             CLASPRC_JSON=$(cat ~/.clasprc.json)
             echo "$CLASPRC_JSON"
-              
+            
+            
     - name: Save .clasprc.json to repo secret
       uses: hmanzur/actions-set-secret@v2.0.0
       if: ${{ always() }}    
