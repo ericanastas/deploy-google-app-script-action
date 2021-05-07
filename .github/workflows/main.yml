@@ -38,8 +38,8 @@ jobs:
       if: ${{ always() }}    
       run: |
             CLASPRC_JSON=FOOBAR
-            ECHO "CLASPRC_JSON"
-            ECHO "$CLASPRC_JSON"
+            echo "CLASPRC_JSON"
+            echo "$CLASPRC_JSON"
               
     - name: Save .clasprc.json to repo secret
       uses: hmanzur/actions-set-secret@v2.0.0
