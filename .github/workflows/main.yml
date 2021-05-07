@@ -20,13 +20,18 @@ jobs:
     - name: Install clasp
       run: npm install @google/clasp -g
       
-    - name: Echo CLASPRC_JSON Secete
+    - name: Echo CLASPRC_JSON Secret
       run: echo "${{ secrets.CLASPRC_JSON }}" 
       
+      
+    - name: Test Writing Enviroment Variable
+      run: FOO=bar
+      
+    - name: Test Reader Enviroment Variable
+      run: echo "$FOO"
+               
     - name: Write .clasprc.json file
-      run: | 
-           echo "$CLASPRC_JSON"
-           echo "$CLASPRC_JSON" >> ~/.clasprc.json
+      run: echo "$CLASPRC_JSON" >> ~/.clasprc.json
       env:
         CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
         
