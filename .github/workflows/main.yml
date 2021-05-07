@@ -22,14 +22,8 @@ jobs:
       
     - name: Write .clasprc.json file
       run: |
-          echo "CLASPRC_JSON VALUE"
-          echo "$CLASPRC_JSON"
-          echo "$CLASPRC_JSON" >> ~/.clasprc.json
+          echo "${{ secrets.CLASPRC_JSON }}" >> ~/.clasprc.json
           clasp login --status
-      env:
-        CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
-        LOGGING_ENABLED: true
-
     - name: Check clasp login status
       run: clasp login --status
       
