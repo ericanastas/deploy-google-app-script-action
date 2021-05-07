@@ -32,13 +32,10 @@ jobs:
     - name: Push Script
       run: clasp push
       
-      
-    
     - name: Save .clasprc.json to enviorment variable
       if: ${{ always() }}    
       run: |
-            CLASPRC_JSON=FOOBAR
-            echo "CLASPRC_JSON"
+            CLASPRC_JSON=$(cat ~/.clasprc.json)
             echo "$CLASPRC_JSON"
               
     - name: Save .clasprc.json to repo secret
