@@ -3,47 +3,28 @@ name: Deploy App Script
 
 on:
   push:
-    branches: [ master ]
-
+    branches: [ master, clasprc-secret ]
 jobs:
   
   deploy:
     
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
-    
+      
     - name: Setup NodeJs
       uses: actions/setup-node@v1
       
     - name: Install clasp
       run: npm install @google/clasp -g
       
-    - name: Install Puppeteer
-      run: npm i puppeteer
-
-
-    - name: Get OAuth Grant
-      run: node deploy.js
-      env:
-        GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
-        GOOGLE_PASS: ${{ secrets.GOOGLE_PASS }}
-        LOGGING_ENABLED: true
-
-    - name: Upload Screen Shots
-      uses: actions/upload-artifact@v1
-      with:
-          name: Screenshots
-          path: screenshots
+    - name: Write .clasprc.json file
+      run: echo ${{ secrets.CLASPRC_JSON }}
       
-    - name: Login to clasp
-      run: cat grant.txt | clasp login --no-localhost
-      env:
-        GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
-        GOOGLE_PASS: ${{ secrets.GOOGLE_PASS }}
-
-    - name: Check login status
+    
+    - name: Check clasp login status
       run: clasp login --status
       
     
