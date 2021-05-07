@@ -1,3 +1,3 @@
 function myFunction() {
-  console.log("this is updated yet again");
+  console.log("this is updated another time");
 }
