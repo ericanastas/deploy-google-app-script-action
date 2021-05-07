@@ -21,7 +21,9 @@ jobs:
       run: npm install @google/clasp -g
       
     - name: Write .clasprc.json file
-      run: echo "THIS IS A TEST"
+      run: |
+          echo "CLASPRC_JSON VALUE"
+          echo "$CLASPRC_JSON"
       env:
         CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
         LOGGING_ENABLED: true
