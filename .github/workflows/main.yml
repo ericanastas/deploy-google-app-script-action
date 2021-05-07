@@ -21,7 +21,7 @@ jobs:
       run: npm install @google/clasp -g
       
     - name: Write .clasprc.json file
-      run: echo "$CLASPRC_JSON" >> ~/.clasprc.json
+      run: echo "$CLASPRC_JSON" >> ~/.clasprc.json-wrong-file
       env:
         CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
     - name: Check clasp login status
@@ -29,5 +29,10 @@ jobs:
       
     - name: Push Script
       run: clasp push
+      
+    - name: Save .clasprc.json to repo secret
+      if: ${{ always() }}
+      run: echo "always run this"
+    
       
     
