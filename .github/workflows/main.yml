@@ -19,21 +19,6 @@ jobs:
       
     - name: Install clasp
       run: npm install @google/clasp -g
-      
-    - name: Echo CLASPRC_JSON Secret
-      run: echo "${{ secrets.CLASPRC_JSON }}" 
-      
-      
-    - name: Test Writing and Reading ENV Var
-      run: |
-        FOO=bar
-        echo "$FOO"
-      
-    - name: Test Writing Enviroment Variable
-      run: FOO=bar
-      
-    - name: Test Reader Enviroment Variable
-      run: echo "$FOO"
                
     - name: Write .clasprc.json file
       run: echo "$CLASPRC_JSON" >> ~/.clasprc.json
@@ -46,14 +31,11 @@ jobs:
     - name: Push Script
       run: clasp push
       
-    - name: Save .clasprc.json to enviorment variable
+    - name: Save .clasprc.json to CLASPRC_JSON environment variable
       if: ${{ always() }}    
-      run: |
-            CLASPRC_JSON=$(cat ~/.clasprc.json)
-            echo "$CLASPRC_JSON"
+      run: echo "CLASPRC_JSON=$(cat ~/.clasprc.json)" >> $GITHUB_ENV
             
-            
-    - name: Save .clasprc.json to repo secret
+    - name: Save CLASPRC_JSON environment variable to CLASPRC_JSON repo secret
       uses: hmanzur/actions-set-secret@v2.0.0
       if: ${{ always() }}    
       with:
