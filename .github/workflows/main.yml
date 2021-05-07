@@ -21,9 +21,7 @@ jobs:
       run: npm install @google/clasp -g
       
     - name: Write .clasprc.json file
-      run: |
-          echo "${{ secrets.CLASPRC_JSON }}" >> ~/.clasprc.json
-          clasp login --status
+      run: echo "${{secrets.CLASPRC_JSON}}" >> ~/.clasprc.json
     - name: Check clasp login status
       run: clasp login --status
       
