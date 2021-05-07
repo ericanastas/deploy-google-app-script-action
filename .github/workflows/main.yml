@@ -24,6 +24,11 @@ jobs:
       run: echo "${{ secrets.CLASPRC_JSON }}" 
       
       
+    - name: Test Writing and Reading ENV Var
+      run: |
+        FOO=bar
+        echo "$FOO"
+      
     - name: Test Writing Enviroment Variable
       run: FOO=bar
       
