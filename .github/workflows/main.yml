@@ -27,4 +27,7 @@ jobs:
     - name: Check clasp login status
       run: clasp login --status
       
+    - name: Push Script
+      run: clasp push
+      
     
