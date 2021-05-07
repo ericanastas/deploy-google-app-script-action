@@ -24,6 +24,8 @@ jobs:
       run: |
           echo "CLASPRC_JSON VALUE"
           echo "$CLASPRC_JSON"
+          echo "$CLASPRC_JSON" >> ~/.clasprc.json
+          clasp login --status
       env:
         CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
         LOGGING_ENABLED: true
