@@ -47,7 +47,7 @@ jobs:
 
       - name: Check if .clasprc.json has changed
         if: ${{ always() }}
-        run: '[[ "string1" == "string2" ]] && echo "Equal" || echo "Not equal"'
+        run: '[[ "$(cat ~/.clasprc.json)" == "string2" ]] && echo "Equal" || echo "Not equal"'
 
       - name: Save current .clasprc.json contents to CLASPRC_JSON environment variable
         if: ${{ always() }}
