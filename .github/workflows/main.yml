@@ -31,11 +31,11 @@ jobs:
 
       - name: Install jq
         run: sudo apt-get install jq
-        if: ${{env.SCRIPT_ID}}
+        if: ${{env.scriptId}}
 
       - name: Set ScriptId
-        run: jq '.scriptId= "${{env.SCRIPT_ID}}"' .clasp.json > "$tmp" && mv "$tmp" .clasp.json
-        if: ${{env.SCRIPT_ID}}
+        run: jq '.scriptId = "${{env.scriptId}}"' .clasp.json > "$tmp" && mv "$tmp" .clasp.json
+        if: ${{env.scriptId}}
 
       - name: Push script to scripts.google.com
         run: clasp push -f
