@@ -49,9 +49,9 @@ jobs:
 
       - name: Deploy Script
         # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-        run: clasp deploy -d "$GITHUB_REF"
+        run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
         env:
-          sha: github.sha
+          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
 
       - name: Check if .clasprc.json has changed
         if: ${{ always() }}
