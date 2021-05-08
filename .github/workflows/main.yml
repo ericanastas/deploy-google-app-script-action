@@ -5,7 +5,7 @@ name: Deploy Google Apps Script
 on:
   workflow_dispatch:
   push:
-    branches: [master, clasprc-secret]
+    branches: [master, main, develop]
 jobs:
   deploy:
     runs-on: ubuntu-latest
