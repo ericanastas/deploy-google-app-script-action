@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: List Files
-        run: ls
+        run: ls- a
 
       - name: Setup NodeJs
         uses: actions/setup-node@v1
@@ -37,7 +37,7 @@ jobs:
         if: ${{env.scriptId}}
 
       - name: Set ScriptId
-        run: jq '.scriptId = "${{env.scriptId}}"' .clasp.json > .clasp.json.temp && mv .clasp.json.temp .clasp.json
+        run: jq '.scriptId = "${{env.scriptId}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
         if: ${{env.scriptId}}
 
       - name: Push script to scripts.google.com
