@@ -26,7 +26,7 @@ jobs:
       #   uses: actions/setup-node@v1
 
       - name: Install clasp
-        run: npm install @google/clasp -g
+        run: sudo npm install @google/clasp -g
 
       - name: Write .clasprc.json file
         run: echo "$CLASPRC_JSON" >> ~/.clasprc.json
