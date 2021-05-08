@@ -45,6 +45,10 @@ jobs:
       - name: Push script to scripts.google.com
         run: clasp push -f
 
+      - name: Check if .clasprc.json has changed
+        if: ${{ always() }}
+        run: '[[ "string1" == "string2" ]] && echo "Equal" || echo "Not equal"'
+
       - name: Save current .clasprc.json contents to CLASPRC_JSON environment variable
         if: ${{ always() }}
         run: echo "CLASPRC_JSON=$(cat ~/.clasprc.json)" >> $GITHUB_ENV
