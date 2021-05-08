@@ -47,6 +47,12 @@ jobs:
       - name: Push script to scripts.google.com
         run: clasp push -f
 
+      - name: Deploy Script
+        # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        run: clasp deploy -d $GITHUB_REF"
+        env:
+          sha: github.sha
+
       - name: Check if .clasprc.json has changed
         if: ${{ always() }}
         run: '[[ "$(cat ~/.clasprc.json)" == "$CLASPRC_JSON" ]] && echo ".clasprc.json has not changed" || echo ".clasprc.json has changed"'
