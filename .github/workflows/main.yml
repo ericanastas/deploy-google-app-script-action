@@ -1,5 +1,5 @@
 # This workflow deploys the project to Google
-name: Deploy App Script
+name: Deploy Google Apps Script
 
 on:
   push:
@@ -25,11 +25,6 @@ jobs:
 
       - name: Check clasp login status
         run: clasp login --status
-
-      - name: Write .clasp.json file
-        run: echo "{\"scriptId\":\"$SCRIPT_ID\"}" >> .clasp.json
-        env:
-          CLASPRC_JSON: ${{ secrets.SCRIPT_ID }}
 
       - name: Push Script
         run: clasp push
