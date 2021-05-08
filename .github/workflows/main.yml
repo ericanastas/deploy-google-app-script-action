@@ -34,7 +34,7 @@ jobs:
         if: ${{env.scriptId}}
 
       - name: Set ScriptId
-        run: jq '.scriptId = "${{env.scriptId}}"' .clasp.json > "$tmp" && mv "$tmp" .clasp.json
+        run: jq '.scriptId = "${{env.scriptId}}"' .clasp.json > .clasp.json.temp && mv .clasp.json.temp .clasp.json
         if: ${{env.scriptId}}
 
       - name: Push script to scripts.google.com
