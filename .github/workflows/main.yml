@@ -3,47 +3,46 @@ name: Deploy App Script
 
 on:
   push:
-    branches: [ master, clasprc-secret ]
+    branches: [master, clasprc-secret]
 jobs:
-  
   deploy:
-    
     runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout repo
-      uses: actions/checkout@v2
-      
-    - name: Setup NodeJs
-      uses: actions/setup-node@v1
-      
-    - name: Install clasp
-      run: npm install @google/clasp -g
-               
-    - name: Write .clasprc.json file
-      run: echo "$CLASPRC_JSON" >> ~/.clasprc.json
-      env:
-        CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
-        
-    - name: Check clasp login status
-      run: clasp login --status
-      
-    - name: Push Script
-      run: clasp push
-      
-    - name: Save .clasprc.json to CLASPRC_JSON environment variable
-      if: ${{ always() }}    
-      run: echo "CLASPRC_JSON=$(cat ~/.clasprc.json)" >> $GITHUB_ENV
-            
-    - name: Save CLASPRC_JSON environment variable to CLASPRC_JSON repo secret
-      uses: hmanzur/actions-set-secret@v2.0.0
-      if: ${{ always() }}    
-      with:
-         name: 'CLASPRC_JSON'
-         value: ${{ env.CLASPRC_JSON }}
-         repository: ${{ github.repository }}
-         token: ${{ secrets.REPO_ACCESS_TOKEN }}
-       
-    
 
-    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup NodeJs
+        uses: actions/setup-node@v1
+
+      - name: Install clasp
+        run: npm install @google/clasp -g
+
+      - name: Write .clasprc.json file
+        run: echo "$CLASPRC_JSON" >> ~/.clasprc.json
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+
+      - name: Check clasp login status
+        run: clasp login --status
+
+      - name: Write .clasp.json file
+        run: echo "{\"scriptId\":\"$SCRIPT_ID\"}" >> .clasp.json
+        env:
+          CLASPRC_JSON: ${{ secrets.SCRIPT_ID }}
+
+      - name: Push Script
+        run: clasp push
+
+      - name: Save .clasprc.json to CLASPRC_JSON environment variable
+        if: ${{ always() }}
+        run: echo "CLASPRC_JSON=$(cat ~/.clasprc.json)" >> $GITHUB_ENV
+
+      - name: Save CLASPRC_JSON environment variable to CLASPRC_JSON repo secret
+        uses: hmanzur/actions-set-secret@v2.0.0
+        if: ${{ always() }}
+        with:
+          name: "CLASPRC_JSON"
+          value: ${{ env.CLASPRC_JSON }}
+          repository: ${{ github.repository }}
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
