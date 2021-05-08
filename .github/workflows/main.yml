@@ -8,6 +8,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      scriptId: ${{secrets.SCRIPT_ID}}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -26,10 +29,18 @@ jobs:
       - name: Check clasp login status
         run: clasp login --status
 
-      - name: Push Script
-        run: clasp push
+      - name: Install jq
+        run: sudo apt-get install jq
+        if: ${{env.SCRIPT_ID}}
 
-      - name: Save .clasprc.json to CLASPRC_JSON environment variable
+      - name: Set ScriptId
+        run: jq '.scriptId= "${{env.SCRIPT_ID}}"' .clasp.json > "$tmp" && mv "$tmp" .clasp.json
+        if: ${{env.SCRIPT_ID}}
+
+      - name: Push script to scripts.google.com
+        run: clasp push -f
+
+      - name: Save current .clasprc.json contents to CLASPRC_JSON environment variable
         if: ${{ always() }}
         run: echo "CLASPRC_JSON=$(cat ~/.clasprc.json)" >> $GITHUB_ENV
 
