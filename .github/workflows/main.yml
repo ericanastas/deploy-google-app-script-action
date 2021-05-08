@@ -49,7 +49,7 @@ jobs:
 
       - name: Deploy Script
         # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-        run: clasp deploy -d $GITHUB_REF"
+        run: clasp deploy -d "$GITHUB_REF"
         env:
           sha: github.sha
 
