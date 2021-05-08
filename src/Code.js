@@ -1,3 +1,3 @@
 function myFunction() {
-    console.log("pushed this to github3");
+    console.log("hello i was changed");
 }
