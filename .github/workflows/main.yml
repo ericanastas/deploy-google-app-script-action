@@ -1,4 +1,4 @@
-# This workflow deploys the project to Google
+# This workflow deploys the project to Google Apps Script
 name: Deploy Google Apps Script
 
 on:
