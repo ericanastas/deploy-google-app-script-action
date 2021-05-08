@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 # Deploy Google App Script Action
 
 Attempt at creating a GitHub action that will deploy a Google App script using [google/clasp](https://github.com/google/clasp)
@@ -13,7 +21,68 @@ See the following issues:
 
 
 
-This script attempted to use Puppeteer login, but eventually failed when Google did not recognize the machine and requested the recovery email to login.  
+
+
+
+
+
+
+
+
+
+# Instructions
+
+
+
+- only trigger on master, main, or develop branch
+- 
+    
+
+
+
+
+
+
+# Reference
+
+`.clasp.json`
+
+    export interface ProjectSettings {
+    scriptId: string;
+    rootDir?: string;
+    projectId?: string;
+    fileExtension?: string;
+    filePushOrder?: string[];
+    parentId?: string[];
+    }
+
+
+`.clasprc.json`
+    {
+    "access_token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "refresh_token": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+    "refresh_token": "1/k4rt_hgxbeGdaRag2TSVgnXgUrWcXwerPpvlzGG1peHVfzI58EZH0P25c7ykiRYd",
+    "scope": "https://www.googleapis.com/auth/script.projects https://www.googleapis.com/auth/script ...",
+    "token_type": "Bearer",
+    "expiry_date": 0000000000000
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
