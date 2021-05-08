@@ -4,6 +4,8 @@ name: Deploy Google Apps Script
 
 on:
   workflow_dispatch:
+  release:
+    types: [published]
   push:
     branches: [master, main, develop]
 jobs:
