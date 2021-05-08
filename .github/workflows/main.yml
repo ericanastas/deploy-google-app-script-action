@@ -15,6 +15,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
+      - name: List Files
+        run: ls
+
       - name: Setup NodeJs
         uses: actions/setup-node@v1
 
