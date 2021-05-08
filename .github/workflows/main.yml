@@ -1,7 +1,9 @@
 # This workflow deploys the project to Google Apps Script
+# 1
 name: Deploy Google Apps Script
 
 on:
+  workflow_dispatch:
   push:
     branches: [master, clasprc-secret]
 jobs:
