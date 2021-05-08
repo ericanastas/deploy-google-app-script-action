@@ -47,7 +47,9 @@ jobs:
 
       - name: Check if .clasprc.json has changed
         if: ${{ always() }}
-        run: '[[ "$(cat ~/.clasprc.json)" == "string2" ]] && echo "Equal" || echo "Not equal"'
+        run: '[[ "$(cat ~/.clasprc.json)" == "$CLASPRC_JSON" ]] && echo ".clasprc.json has not changed" || echo ".clasprc.json has changed"'
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
 
       - name: Save current .clasprc.json contents to CLASPRC_JSON environment variable
         if: ${{ always() }}
