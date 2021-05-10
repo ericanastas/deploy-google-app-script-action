@@ -12,9 +12,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    env:
-      scriptId: ${{secrets.SCRIPT_ID}}
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -43,6 +40,8 @@ jobs:
       - name: Set ScriptId
         run: jq '.scriptId = "${{env.scriptId}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
         if: ${{env.scriptId}}
+        env:
+          scriptId: ${{secrets.SCRIPT_ID}}
 
       - name: Push script to scripts.google.com
         run: clasp push -f
