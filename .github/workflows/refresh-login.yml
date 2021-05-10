@@ -3,7 +3,7 @@ name: Refresh Google Apps Script Login
 on:
   workflow_dispatch:
   #schedule:
-    #- cron: "0 0 * * SUN"
+  #- cron: "0 0 * * SUN"
 jobs:
   refresh-login:
     runs-on: ubuntu-latest
