@@ -1,4 +1,4 @@
-name: Refresh Google Apps Script Login
+name: Refresh Login
 
 on:
   workflow_dispatch:

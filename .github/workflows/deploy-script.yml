@@ -1,4 +1,4 @@
-name: Deploy Google Apps Script
+name: Deploy Script
 
 on:
   workflow_dispatch:
