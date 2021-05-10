@@ -16,12 +16,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      # - name: List Files
-      #   run: ls -a
-
-      # - name: Setup NodeJs
-      #   uses: actions/setup-node@v1
-
       - name: Install clasp
         run: sudo npm install @google/clasp -g
 
@@ -32,10 +26,6 @@ jobs:
 
       - name: Check clasp login status
         run: clasp login --status
-
-      # - name: Install jq
-      #   run: sudo apt-get install jq
-      #   if: ${{env.scriptId}}
 
       - name: Set ScriptId
         run: jq '.scriptId = "${{env.scriptId}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
