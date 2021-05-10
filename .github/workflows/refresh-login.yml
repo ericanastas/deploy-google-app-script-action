@@ -22,12 +22,6 @@ jobs:
       - name: Check clasp login status
         run: clasp login --status
 
-      - name: Set ScriptId
-        run: jq '.scriptId = "${{env.scriptId}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
-        if: ${{env.scriptId}}
-        env:
-          scriptId: ${{secrets.SCRIPT_ID}}
-
       - name: Check if .clasprc.json has changed
         if: ${{ always() }}
         run: '[[ "$(cat ~/.clasprc.json)" == "$CLASPRC_JSON" ]] && echo ".clasprc.json has not changed" || echo ".clasprc.json has changed"'
