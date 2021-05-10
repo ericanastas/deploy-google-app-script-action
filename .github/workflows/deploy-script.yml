@@ -7,7 +7,7 @@ on:
   push:
     branches: [master, main, develop]
 jobs:
-  deploy:
+  deploy-script:
     runs-on: ubuntu-latest
 
     steps:
