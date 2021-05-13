@@ -66,7 +66,7 @@ jobs:
         run: jq '.scriptId = "${{env.SCRIPT_ID}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
         if: ${{ github.event_name	!= 'schedule' && env.SCRIPT_ID}}
         env:
-          scriptId: ${{secrets.SCRIPT_ID}}
+          SCRIPT_ID: ${{secrets.SCRIPT_ID}}
 
       - name: Push script to scripts.google.com
         id: clasp-push
