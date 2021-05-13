@@ -1,3 +1,3 @@
 function myFunction() {
-    console.log("hello i was changed");
+    console.log("Hello Google Apps Script CI/CD!");
 }
