@@ -12,4 +12,4 @@ jobs:
 
     steps:
       - name: "Init clasp"
-        uses: "./init-clasp"
+        uses: "./composite/init-clasp"
