@@ -2,8 +2,8 @@ name: Refresh Login
 
 on:
   workflow_dispatch:
-    #schedule:
-    #- cron: "0 0 * * SUN"
+  schedule:
+    - cron: "0 0 * * SUN"
   push:
     branches: [master, main, develop]
 jobs:
