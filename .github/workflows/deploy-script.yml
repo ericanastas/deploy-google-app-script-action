@@ -31,7 +31,11 @@ jobs:
 
       - name: Save current .clasprc.json contents to CLASPRC_JSON environment variable
         id: save-clasprc
-        run: echo "CLASPRC_JSON=$(cat ~/.clasprc.json)" >> $GITHUB_ENV
+        run: |
+          echo "CLASPRC_JSON_FILE=$(cat ~/.clasprc.json)" >> $GITHUB_ENV
+          echo "CLASPRC_JSON_SECRET=$CLASPRC_JSON_SECRET" >> $GITHUB_ENV
+        env:
+          CLASPRC_JSON_SECRET: ${{ secrets.CLASPRC_JSON }}
 
       # - name: Check if .clasprc.json has changed from CLASPRC_JSON secret
       #   id: check_clasprc_changed
@@ -44,12 +48,12 @@ jobs:
       #     CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
 
       - name: Save updated CLASPRC_JSON environment variable to CLASPRC_JSON repo secret
-        if: ${{ env.CLASPRC_JSON != secrets.CLASPRC_JSON  }}
+        if: ${{ env.CLASPRC_JSON_FILE != env.CLASPRC_JSON_SECRET  }}
         id: set-clasprc-secret
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: "CLASPRC_JSON"
-          value: ${{ env.CLASPRC_JSON }}
+          value: ${{ env.CLASPRC_JSON_FILE }}
           repository: ${{ github.repository }}
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
