@@ -3,8 +3,7 @@ name: Deploy Script
 on:
   workflow_dispatch:
   push:
-    branches: [master, main, develop]
-
+    branches: [main, develop]
   release:
     types: [published]
   schedule:
@@ -38,8 +37,8 @@ jobs:
           CLASPRC_JSON_SECRET: ${{ secrets.CLASPRC_JSON }}
 
       - name: Save updated CLASPRC_JSON environment variable to CLASPRC_JSON repo secret
-        if: ${{ env.CLASPRC_JSON_FILE != env.CLASPRC_JSON_SECRET  }}
         id: set-clasprc-secret
+        if: ${{ env.CLASPRC_JSON_FILE != env.CLASPRC_JSON_SECRET  }}
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: "CLASPRC_JSON"
@@ -48,13 +47,14 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: Checkout repo
+        id: checkout-repo
         if: ${{github.event_name	!= 'schedule' }}
         uses: actions/checkout@v2
 
       - name: Set scriptId in .clasp.json file
         id: set-script-id
-        run: jq '.scriptId = "${{env.SCRIPT_ID}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
         if: ${{ github.event_name	!= 'schedule' && env.SCRIPT_ID}}
+        run: jq '.scriptId = "${{env.SCRIPT_ID}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
         env:
           SCRIPT_ID: ${{secrets.SCRIPT_ID}}
 
@@ -65,8 +65,7 @@ jobs:
 
       - name: Deploy Script
         id: clasp-deploy
-        if: ${{github.event_name	!= 'schedule' && env.DEPLOYMENT_ID}}
-        # if: ${{ secrets.DEPLOYMENT_ID && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'}
+        if: ${{github.event_name	!= 'schedule' && env.DEPLOYMENT_ID)}}
         run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
