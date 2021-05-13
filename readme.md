@@ -25,27 +25,26 @@ At this point the workflow will be triggered but will fail because it is not con
 ### Set Repository Secrets
 
 [Github encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) are used to configure the workflow and can be set from the repository settings page on GitHub.
-#### `CLASPRC_JSON`
+#### `CLASPRC_JSON` Secret
 
-The `clasp` command line tool uses a `.clasprc.json` file to store the current login information. The contents of this file need to added to a `CLASPRC_JSON` secret to allow the workflow to access and modify scrits.
+The `clasp` command line tool uses a `.clasprc.json` file to store the current login information. The contents of this file need to be added to a `CLASPRC_JSON` secret to allow the workflow to update and deploy scripts.
 
 1. Login to clasp as the user that should run the workflow: `clasp login` 
 2. Open the `.clasprc.json` file that is created in the home directory (`C:\Users\{username}` on windows, and `~/.clasprc.json` on Linux)
 3. Copy the contents of `.clasprc.json` into a new secret named `CLASPRC_JSON`
 
 
-#### `REPO_ACCESS_TOKEN`
-
+#### `REPO_ACCESS_TOKEN` Secret
 A GitHub personal access token must be provided to the workfow to allow it to update the `CLASPRC_JSON` secret configured about when tokens expire and refresh.
 
 1. Create a new [GitHubpersonal access token](https://github.com/settings/tokens/new) with `repo` scope.
 2. Copy the token into a new secret named `REPO_ACCESS_TOKEN`
 
-#### `SCRIPT_ID` [OPTIONAL]
+#### `SCRIPT_ID` Secret [OPTIONAL]
 
 The clasp command line tool identifies the Google Apps Script project to push and deploy too using the `scriptId` property in `.clasp.json`. You may leave this value hard coded in `.clasp.json` or you may have this set dynamically. To specify the target script dynamically add a `SCRIPT_ID` secret to the repository. This will cause the workflow to override whatever literal scriptId value is in `.clasp.json`
 
-#### `DEPLOYMENT_ID` [OPTIONAL]
+#### `DEPLOYMENT_ID` Secret [OPTIONAL]
 
 The workflow can automatically deploy the script when the `main` branch is pushed to github.
 
