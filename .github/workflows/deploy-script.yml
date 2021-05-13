@@ -21,9 +21,9 @@ jobs:
 
       - name: Write CLASPRC_JSON secret to .clasprc.json file
         id: write-clasprc
-        run: echo "$CLASPRC_JSON" >> ~/.clasprc.json
+        run: echo "$CLASPRC_JSON_SECRET" >> ~/.clasprc.json
         env:
-          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+          CLASPRC_JSON_SECRET: ${{ secrets.CLASPRC_JSON }}
 
       - name: Check clasp login status
         id: clasp_login
@@ -58,19 +58,19 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: Checkout repo
-        if: github.event_name	!= 'schedule'
+        if: ${{github.event_name	!= 'schedule' }}
         uses: actions/checkout@v2
 
       - name: Set ScriptId
         id: set-script-id
         run: jq '.scriptId = "${{env.SCRIPT_ID}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
-        if: github.event_name	!= 'schedule' && ${{env.SCRIPT_ID}}
+        if: ${{ github.event_name	!= 'schedule' && env.SCRIPT_ID}}
         env:
           scriptId: ${{secrets.SCRIPT_ID}}
 
       - name: Push script to scripts.google.com
         id: clasp-push
-        if: github.event_name	!= 'schedule' && ${{env.SCRIPT_ID}}
+        if: ${{ github.event_name	!= 'schedule'}}
         run: clasp push -f
 
       # - name: Deploy Script
