@@ -21,7 +21,7 @@ This repository is an example of how to setup an automatic [CI/CD](https://en.wi
 10. Push the `main` branch to GitHub: `git push -u origin main`
 11. Push the `develop` branch to GitHub: `git push -u origin develop`
 
-At this point the workflow will be triggered but will fail because it is not configured.
+At this point the workflow will be triggered but will fail because it is not configured completely.
 ### Set Repository Secrets
 
 [Github encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) are used to configure the workflow and can be set from the repository settings page on GitHub.
@@ -54,9 +54,8 @@ The workflow can automatically deploy the script when the `main` branch is pushe
 2. Add the desired deployment id to a secret naned `DEPLOYMENT_ID`
 ## Usage
 
-- Pushing to either the `main` or `develop` branches on github will automatically trigger the workflow to push the code `https://scripts.google.com`
+- Pushing to either the `main` or `develop` branches on github will automatically trigger the workflow to push the code to the `HEAD` deployment on https://scripts.google.com`
 - In addition, pushing to `main` will also deploy the scrip to the deployment specified by the `DEPLOYMENT_ID` secret.
-
 ## Related Issues
 
 - [Provide instructions for deploying via CI #707](https://github.com/google/clasp/issues/707)
