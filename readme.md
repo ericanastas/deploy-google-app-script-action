@@ -1,6 +1,5 @@
 # Deploy Google App Script Action
 
-[![Refresh Login](https://github.com/SOM-Firmwide/deploy-google-app-script-action/actions/workflows/refresh-login.yml/badge.svg)](https://github.com/SOM-Firmwide/deploy-google-app-script-action/actions/workflows/refresh-login.yml)
 [![Deploy Script](https://github.com/SOM-Firmwide/deploy-google-app-script-action/actions/workflows/deploy-script.yml/badge.svg)](https://github.com/SOM-Firmwide/deploy-google-app-script-action/actions/workflows/deploy-script.yml)
 
 
