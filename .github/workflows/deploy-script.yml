@@ -65,7 +65,7 @@ jobs:
 
       - name: Deploy Script
         id: clasp-deploy
-        if: ${{github.event_name	!= 'schedule' && env.DEPLOYMENT_ID)}}
+        if: ${{github.event_name	!= 'schedule' && env.DEPLOYMENT_ID}}
         run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
         env:
           DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
