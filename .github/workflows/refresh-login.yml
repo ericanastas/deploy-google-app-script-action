@@ -11,5 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
       - name: "Init clasp"
-        uses: "./composite/init-clasp"
+        uses: "./init-clasp"
