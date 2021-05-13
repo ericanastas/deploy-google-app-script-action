@@ -24,14 +24,15 @@ This repository is an example of how to setup an automatic [CI/CD](https://en.wi
 At this point the workflow will be triggered but will fail because it is not configured.
 ### Set Repository Secrets
 
-[Github encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) are used to configure the workflow. 
+[Github encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) are used to configure the workflow and can be set from the repository settings page on GitHub.
 #### `CLASPRC_JSON`
 
-The `clasp` command line tool uses a `.clasprc.json` file to store the current login information.
+The `clasp` command line tool uses a `.clasprc.json` file to store the current login information. The contents of this file need to added to a `CLASPRC_JSON` secret to allow the workflow to access and modify scrits.
 
 1. Login to clasp as the user that should run the workflow: `clasp login` 
 2. Open the `.clasprc.json` file that is created in the home directory (`C:\Users\{username}` on windows, and `~/.clasprc.json` on Linux)
 3. Copy the contents of `.clasprc.json` into a new secret named `CLASPRC_JSON`
+
 
 #### `REPO_ACCESS_TOKEN`
 
@@ -79,8 +80,7 @@ The workflow can automatically deploy the script when the `main` branch is pushe
     parentId?: string[];
     }
 
-
-- `.clasprc.json` File Format
+- `.clasprc.json` File Format Reference
     {
     "access_token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "refresh_token": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
@@ -89,7 +89,6 @@ The workflow can automatically deploy the script when the `main` branch is pushe
     "token_type": "Bearer",
     "expiry_date": 0000000000000
     }
-
 
 
 
