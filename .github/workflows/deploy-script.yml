@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: [main, develop]
-    tags:
-      - "**"
   release:
     types: [published]
   schedule:
