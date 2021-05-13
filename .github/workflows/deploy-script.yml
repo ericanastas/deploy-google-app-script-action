@@ -61,7 +61,7 @@ jobs:
         if: ${{github.event_name	!= 'schedule' }}
         uses: actions/checkout@v2
 
-      - name: Set ScriptId
+      - name: Set scriptId in .clasp.json file
         id: set-script-id
         run: jq '.scriptId = "${{env.SCRIPT_ID}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
         if: ${{ github.event_name	!= 'schedule' && env.SCRIPT_ID}}
@@ -73,9 +73,10 @@ jobs:
         if: ${{ github.event_name	!= 'schedule'}}
         run: clasp push -f
 
-      # - name: Deploy Script
-      #   id: clasp - deploy
-      #   # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-      #   run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
-      #   env:
-      #     DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
+      - name: Deploy Script
+        id: clasp-deploy
+        if: ${{secrets.DEPLOYMENT_ID}
+        # if: ${{ secrets.DEPLOYMENT_ID && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'}
+        run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
+        env:
+          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
