@@ -14,4 +14,4 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: "Init clasp"
-        uses: "./init-clasp"
+        uses: "./.github/actions/init-clasp"
