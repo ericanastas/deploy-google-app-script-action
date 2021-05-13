@@ -2,14 +2,14 @@
 
 [![Deploy Script](https://github.com/SOM-Firmwide/deploy-google-app-script-action/actions/workflows/deploy-script.yml/badge.svg)](https://github.com/SOM-Firmwide/deploy-google-app-script-action/actions/workflows/deploy-script.yml)
 
-This repository is an example of how to to automatically deploy a [Google Apps Script](https://developers.google.com/apps-script) using [GitHub Actions](https://docs.github.com/en/actions).
+This repository is an example of how to setup an automatic [CI/CD](https://en.wikipedia.org/wiki/CI/CD) process for [Google Apps Script](https://developers.google.com/apps-script) using [GitHub Actions](https://docs.github.com/en/actions).
 ## Setup
 
 ### Setup GitHub Repository
 
 1. Install [clasp](https://developers.google.com/apps-script/guides/clasp) on your development machine if not already installed.
 2. Create a local copy of a Google Apps Script project. You may use `clasp create` to create a new project or `clasp clone` to download an existing project.
-3. Initialize the project folder as a new Git repo: `git init`. The `.clasp.json` file MUST be in the root of the repository, but `.clasp.json` may point to source files in a sub folder using using the `rootDir` property. 
+3. Initialize the project folder as a new Git repo: `git init`. The `.clasp.json` file MUST be in the root of the repository, but `.clasp.json` may point to source files in a sub folder throgh the `rootDir` property. 
 4. Copy `.github/workflows/deploy-script.yml` from this repository to the same relative path.
 5. Stage files: `git add .`
 6. Commit files: `git commit -m "first commit"`
@@ -50,7 +50,11 @@ The workflow can automatically deploy the script when the `main` branch is pushe
    1. Create a new deployment with `clasp deploy` or on https://scripts.google.com.
    2. FInd the deploymen id with `clasp deployments` or checking the projet settings on https://scripts.google.com.
 2. Add the desired deployment id to a secret naned `DEPLOYMENT_ID`
-    
+## Usage
+
+- Pushing to either the `main` or `develop` branches on github will automatically trigger the workflow to push the code `https://scripts.google.com`
+- In addition, pushing to `main` will also deploy the scrip to the deployment specified by the `DEPLOYMENT_ID` secret.
+
 ## Related Issues
 
 - [Provide instructions for deploying via CI #707](https://github.com/google/clasp/issues/707)
