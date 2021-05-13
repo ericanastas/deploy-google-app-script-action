@@ -37,16 +37,6 @@ jobs:
         env:
           CLASPRC_JSON_SECRET: ${{ secrets.CLASPRC_JSON }}
 
-      # - name: Check if .clasprc.json has changed from CLASPRC_JSON secret
-      #   id: check_clasprc_changed
-      #   run: |
-      #     if ["$(cat ~/.clasprc.json)" != "$CLASPRC_JSON"]
-      #     then
-      #          echo "UPDATED_CLASPRC_JSON=YES" >> $GITHUB_ENV
-      #     fi
-      #   env:
-      #     CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
-
       - name: Save updated CLASPRC_JSON environment variable to CLASPRC_JSON repo secret
         if: ${{ env.CLASPRC_JSON_FILE != env.CLASPRC_JSON_SECRET  }}
         id: set-clasprc-secret
@@ -75,7 +65,7 @@ jobs:
 
       - name: Deploy Script
         id: clasp-deploy
-        if: ${{env.DEPLOYMENT_ID}}
+        if: ${{github.event_name	!= 'schedule' && env.DEPLOYMENT_ID}}
         # if: ${{ secrets.DEPLOYMENT_ID && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'}
         run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
         env:
