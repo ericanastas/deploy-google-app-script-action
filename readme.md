@@ -9,8 +9,7 @@ This repository is an example of how to to automatically deploy a [Google Apps S
 
 1. Install [clasp](https://developers.google.com/apps-script/guides/clasp) on your development machine if not already installed.
 2. Create a local copy of a Google Apps Script project. You may use `clasp create` to create a new project or `clasp clone` to download an existing project.
-3. Initialize the project folder as a new Git repo: `git init`
-   1.  The `.clasp.json` file MUST be in the root of the repository, but `.clasp.json` may point to source files in a sub folder using using the `rootDir` property. 
+3. Initialize the project folder as a new Git repo: `git init`. The `.clasp.json` file MUST be in the root of the repository, but `.clasp.json` may point to source files in a sub folder using using the `rootDir` property. 
 4. Copy `.github/workflows/deploy-script.yml` from this repository to the same relative path.
 5. Stage files: `git add .`
 6. Commit files: `git commit -m "first commit"`
@@ -18,39 +17,39 @@ This repository is an example of how to to automatically deploy a [Google Apps S
 8. Create a `main` branch: `git branch -M main`
 9.  Add the Github repo as a remote: `git remote add origin git@github.com:account/repo.git`
 10. Push the `main` branch to GitHub: `git push -u origin main`
-10. Push the `develop` branch to GitHub: `git push -u origin develop`
+11. Push the `develop` branch to GitHub: `git push -u origin develop`
+
 
 ### Set Repository Secrets
 
-[Github encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) are used to configure the workflow. You will need to install [clasp](https://developers.google.com/apps-script/guides/clasp) on your development machine if not already installed.
-
+[Github encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) are used to configure the workflow. 
 #### `CLASPRC_JSON`
 
-    The `clasp` command line tool uses a `.clasprc.json` file to store the current login information.
+The `clasp` command line tool uses a `.clasprc.json` file to store the current login information.
 
-   1. Login to clasp as the user that should run the workflow: `clasp login` 
-   2. Open the `.clasprc.json` file that is created in the home directory (`C:\Users\{username}` on windows, and `~/.clasprc.json` on Linux)
-   3. Copy the contents of `.clasprc.json` into a new secret named `CLASPRC_JSON`
+1. Login to clasp as the user that should run the workflow: `clasp login` 
+2. Open the `.clasprc.json` file that is created in the home directory (`C:\Users\{username}` on windows, and `~/.clasprc.json` on Linux)
+3. Copy the contents of `.clasprc.json` into a new secret named `CLASPRC_JSON`
 
 #### `REPO_ACCESS_TOKEN`
 
-    A GitHub personal access token must be provided to the workfow to allow it to update the `CLASPRC_JSON` secret configured about when tokens expire and refresh.
+A GitHub personal access token must be provided to the workfow to allow it to update the `CLASPRC_JSON` secret configured about when tokens expire and refresh.
 
-   1. Create a new [GitHubpersonal access token](https://github.com/settings/tokens/new) with `repo` scope.
-   2. Copy the token into a new secret named `REPO_ACCESS_TOKEN`
+1. Create a new [GitHubpersonal access token](https://github.com/settings/tokens/new) with `repo` scope.
+2. Copy the token into a new secret named `REPO_ACCESS_TOKEN`
 
 #### `SCRIPT_ID` [OPTIONAL]
 
-    The clasp command line tool identifies the Google Apps Script project to push and deploy too using the `scriptId` property in `.clasp.json`. You may leave this value hard coded in `.clasp.json` or you may have this set dynamically. To specify the target script dynamically add a `SCRIPT_ID` secret to the repository. This will cause the workflow to override whatever literal scriptId value is in `.clasp.json`
+The clasp command line tool identifies the Google Apps Script project to push and deploy too using the `scriptId` property in `.clasp.json`. You may leave this value hard coded in `.clasp.json` or you may have this set dynamically. To specify the target script dynamically add a `SCRIPT_ID` secret to the repository. This will cause the workflow to override whatever literal scriptId value is in `.clasp.json`
 
 #### `DEPLOYMENT_ID` [OPTIONAL]
 
-    The workflow can automatically deploy the script when the `main` branch is pushed to github.
+The workflow can automatically deploy the script when the `main` branch is pushed to github.
 
-    1. Determine the ID of the deployment you want
-       1. Create a new deployment with `clasp deploy` or on https://scripts.google.com.
-       2. FInd the deploymen id with `clasp deployments` or checking the projet settings on https://scripts.google.com.
-    2. Add the desired deployment id to a secret naned `DEPLOYMENT_ID`
+1. Determine the ID of the deployment you want
+   1. Create a new deployment with `clasp deploy` or on https://scripts.google.com.
+   2. FInd the deploymen id with `clasp deployments` or checking the projet settings on https://scripts.google.com.
+2. Add the desired deployment id to a secret naned `DEPLOYMENT_ID`
     
 ## Related Issues
 
