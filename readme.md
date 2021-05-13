@@ -17,11 +17,11 @@ This repository is an example of how to setup an automatic [CI/CD](https://en.wi
 6. Commit files: `git commit -m "first commit"`
 7. Create a `develop` branch: `git branch -M develop`
 8. Create a `main` branch: `git branch -M main`
-9.  Add the Github repo as a remote: `git remote add origin git@github.com:account/repo.git`
+9.  Create a new GitHub repository, and add it as a remote: `git remote add origin git@github.com:account/repo.git`
 10. Push the `main` branch to GitHub: `git push -u origin main`
 11. Push the `develop` branch to GitHub: `git push -u origin develop`
 
-
+At this point the workflow will be triggered but will fail because it is not configured.
 ### Set Repository Secrets
 
 [Github encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) are used to configure the workflow. 
