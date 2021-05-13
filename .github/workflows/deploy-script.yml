@@ -2,59 +2,76 @@ name: Deploy Script
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
   push:
     branches: [master, main, develop]
+
+  release:
+    types: [published]
+  schedule:
+    - cron: "0 0 * * SUN"
+
 jobs:
-  deploy-script:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
       - name: Install clasp
+        id: install-clasp
         run: sudo npm install @google/clasp -g
 
-      - name: Write .clasprc.json file
+      - name: Write CLASPRC_JSON secret to .clasprc.json file
+        id: write-clasprc
         run: echo "$CLASPRC_JSON" >> ~/.clasprc.json
         env:
           CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
 
       - name: Check clasp login status
+        id: clasp_login
         run: clasp login --status
 
-      - name: Set ScriptId
-        run: jq '.scriptId = "${{env.scriptId}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
-        if: ${{env.scriptId}}
-        env:
-          scriptId: ${{secrets.SCRIPT_ID}}
-
-      - name: Push script to scripts.google.com
-        run: clasp push -f
-
-      - name: Deploy Script
-        # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-        run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
-        env:
-          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
-
-      - name: Check if .clasprc.json has changed
-        if: ${{ always() }}
-        run: '[[ "$(cat ~/.clasprc.json)" == "$CLASPRC_JSON" ]] && echo ".clasprc.json has not changed" || echo ".clasprc.json has changed"'
-        env:
-          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
-
       - name: Save current .clasprc.json contents to CLASPRC_JSON environment variable
-        if: ${{ always() }}
+        id: save-clasprc
         run: echo "CLASPRC_JSON=$(cat ~/.clasprc.json)" >> $GITHUB_ENV
 
-      - name: Save CLASPRC_JSON environment variable to CLASPRC_JSON repo secret
+      # - name: Check if .clasprc.json has changed from CLASPRC_JSON secret
+      #   id: check_clasprc_changed
+      #   run: |
+      #     if ["$(cat ~/.clasprc.json)" != "$CLASPRC_JSON"]
+      #     then
+      #          echo "UPDATED_CLASPRC_JSON=YES" >> $GITHUB_ENV
+      #     fi
+      #   env:
+      #     CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+
+      - name: Save updated CLASPRC_JSON environment variable to CLASPRC_JSON repo secret
+        if: ${{ env.CLASPRC_JSON != secrets.CLASPRC_JSON  }}
+        id: set-clasprc-secret
         uses: hmanzur/actions-set-secret@v2.0.0
-        if: ${{ always() }}
         with:
           name: "CLASPRC_JSON"
           value: ${{ env.CLASPRC_JSON }}
           repository: ${{ github.repository }}
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+      - name: Checkout repo
+        if: github.event_name	!= 'schedule'
+        uses: actions/checkout@v2
+
+      - name: Set ScriptId
+        id: set-script-id
+        run: jq '.scriptId = "${{env.SCRIPT_ID}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
+        if: github.event_name	!= 'schedule' && ${{env.SCRIPT_ID}}
+        env:
+          scriptId: ${{secrets.SCRIPT_ID}}
+
+      - name: Push script to scripts.google.com
+        id: clasp-push
+        if: github.event_name	!= 'schedule' && ${{env.SCRIPT_ID}}
+        run: clasp push -f
+
+      # - name: Deploy Script
+      #   id: clasp - deploy
+      #   # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+      #   run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
+      #   env:
+      #     DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
