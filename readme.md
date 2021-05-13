@@ -9,7 +9,9 @@ This repository is an example of how to setup an automatic [CI/CD](https://en.wi
 
 1. Install [clasp](https://developers.google.com/apps-script/guides/clasp) on your development machine if not already installed.
 2. Create a local copy of a Google Apps Script project. You may use `clasp create` to create a new project or `clasp clone` to download an existing project.
-3. Initialize the project folder as a new Git repo: `git init`. The `.clasp.json` file MUST be in the root of the repository, but `.clasp.json` may point to source files in a sub folder throgh the `rootDir` property. 
+3. Initialize the project folder as a new Git repo: `git init`. 
+   1. The `.clasp.json` file MUST be in the root of the repository, 
+   2. `.clasp.json` may point to source files in a sub folder throgh a `rootDir` property. 
 4. Copy `.github/workflows/deploy-script.yml` from this repository to the same relative path.
 5. Stage files: `git add .`
 6. Commit files: `git commit -m "first commit"`
