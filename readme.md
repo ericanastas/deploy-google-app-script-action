@@ -81,8 +81,6 @@ The `.clasprc.json` file that stores the authentication information contains a `
 
 However, there are [conditions where the refresh token may also expire](https://developers.google.com/identity/protocols/oauth2#expiration). So in addition to the push triggers the workflow is also configured to automatically attempt to login to clasp once a week which will confirm the authentication is still working and potentially refresh and save new tokens.
 
-
-
 ### `.clasprc.json` File Format Reference
 
     {
@@ -92,6 +90,16 @@ However, there are [conditions where the refresh token may also expire](https://
         "token_type": "Bearer",
         "expiry_date": 0000000000000
     }
+
+## GCP Service Accounts
+
+The whole system described here copying the credentials out of `.clasprc.json` and using a scheduled trigger to automatically update the tokens on a regular basis is a hack. 
+
+The "correct" way to setup a server to server connection like is through a GCP service account. It is possible to login clasp using a key file for a service account. However, the [Apps Scripts API](https://developers.google.com/apps-script/api/concepts) does not work with service accounts.
+
+- [Execution API - cant use service account](https://issuetracker.google.com/issues/36763096)
+- [Can the Google Apps Script Execution API be called by a service account?](https://stackoverflow.com/questions/33306299/can-the-google-apps-script-execution-api-be-called-by-a-service-account)
+  
 ## Related Issues
 
 - [Provide instructions for deploying via CI #707](https://github.com/google/clasp/issues/707)
