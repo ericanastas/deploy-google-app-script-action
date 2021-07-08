@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Install clasp
         id: install-clasp
-        run: sudo npm install @google/clasp -g
+        run: sudo npm install @google/clasp@2.3.2 -g
 
       - name: Write CLASPRC_JSON secret to .clasprc.json file
         id: write-clasprc
