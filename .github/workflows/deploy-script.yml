@@ -36,6 +36,10 @@ jobs:
         env:
           CLASPRC_JSON_SECRET: ${{ secrets.CLASPRC_JSON }}
 
+      - name: Add Mask for CLASPRC_JSON_FILE value
+        run: |
+          echo "::add-mask::${{ env.CLASPRC_JSON_FILE }}"     
+
       - name: Save updated CLASPRC_JSON environment variable to CLASPRC_JSON repo secret
         id: set-clasprc-secret
         if: ${{ env.CLASPRC_JSON_FILE != env.CLASPRC_JSON_SECRET  }}
