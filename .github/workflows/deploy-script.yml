@@ -1,33 +1,26 @@
-name: Deploy Script
+env:
+  clasp-credentials: secrets.CLASPRC_JSON
+  repo-access-token: secrets.REPO_ACCESS_TOKEN
 
 on:
-  workflow_dispatch:
   push:
-    branches: [main, develop]
-  release:
-    types: [published]
-  schedule:
-    - cron: "0 0 * * SUN"
-
+    branches:
+    - dev
 jobs:
-  deploy:
+  deploy-to-apps-script:
+    name: deploy to apps script
     runs-on: ubuntu-latest
-
     steps:
       - name: Install clasp
         id: install-clasp
         run: sudo npm install @google/clasp@2.4.1 -g
-
-      - name: Write CLASPRC_JSON secret to .clasprc.json file
-        id: write-clasprc
-        run: echo "$CLASPRC_JSON_SECRET" >> ~/.clasprc.json
-        env:
-          CLASPRC_JSON_SECRET: ${{ secrets.CLASPRC_JSON }}
-
-      - name: Check clasp login status
-        id: clasp_login
-        run: clasp login --status
-
+      
+      - name: Initialize clasp credentials
+        id: clasp-credentials
+        run: | 
+          echo "$clasp-credentials" >> ~/.clasprc.json
+          echo "$(~/.clasprc.json)"
+        
       - name: Save current .clasprc.json contents to CLASPRC_JSON_FILE environment variable
         id: save-clasprc
         run: |
@@ -45,54 +38,8 @@ jobs:
           value: ${{ env.CLASPRC_JSON_FILE }}
           repository: ${{ github.repository }}
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
-
-      - name: Checkout repo
-        id: checkout-repo
-        if: ${{github.event_name	!= 'schedule' }}
-        uses: actions/checkout@v2
-
-      - name: Set scriptId in .clasp.json file
-        id: set-script-id
-        if: ${{ github.event_name	!= 'schedule' && env.SCRIPT_ID}}
-        run: jq '.scriptId = "${{env.SCRIPT_ID}}"' .clasp.json > /tmp/.clasp.json && mv /tmp/.clasp.json .clasp.json
-        env:
-          SCRIPT_ID: ${{secrets.SCRIPT_ID}}
-
+        
       - name: Push script to scripts.google.com
         id: clasp-push
-        if: ${{ github.event_name	!= 'schedule'}}
         run: clasp push -f
-
-      - name: Deploy Script
-        id: clasp-deploy
-        if: ${{env.DEPLOYMENT_ID && (github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main'))}}
-        run: clasp deploy -i "$DEPLOYMENT_ID" -d "$GITHUB_REF"
-        env:
-          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
-  # dump-context:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Dump GitHub context
-  #       env:
-  #         GITHUB_CONTEXT: ${{ toJSON(github) }}
-  #       run: echo "$GITHUB_CONTEXT"
-  #     - name: Dump job context
-  #       env:
-  #         JOB_CONTEXT: ${{ toJSON(job) }}
-  #       run: echo "$JOB_CONTEXT"
-  #     - name: Dump steps context
-  #       env:
-  #         STEPS_CONTEXT: ${{ toJSON(steps) }}
-  #       run: echo "$STEPS_CONTEXT"
-  #     - name: Dump runner context
-  #       env:
-  #         RUNNER_CONTEXT: ${{ toJSON(runner) }}
-  #       run: echo "$RUNNER_CONTEXT"
-  #     - name: Dump strategy context
-  #       env:
-  #         STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
-  #       run: echo "$STRATEGY_CONTEXT"
-  #     - name: Dump matrix context
-  #       env:
-  #         MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-  #       run: echo "$MATRIX_CONTEXT"
+      
